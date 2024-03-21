@@ -3,27 +3,28 @@ const bcrypt = require('bcrypt');
 
 const login = async (req, res, next) =>{
     
-    const {username_email, password} = req.body;
-    console.log(username_email, password);
-    const user = await Users.findOne({
-        $or: [
-            { email: username_email},
-            { username: username_email }
-        ]}
-    );
+    try{
+        const {username_email, password} = req.body;
+        const user = await Users.findOne({
+            $or: [
+                { email: username_email},
+                { username: username_email }
+            ]}
+        );
 
-    if(!user){
-        return res.json({msg: "Invalid email/password", status: false});
+        if(!user){
+            return res.json({msg: "Invalid email/password", status: false});
+        }
+
+        const checkPassword = await bcrypt.compare(password, user.password);
+        if(checkPassword){
+            return res.json({msg: `Successfully logged in ${user.username}`, status: true, user});
+        }
+        return res.json({msg: "Invalid password", status: false});
     }
-    console.log('existing user', user);
-
-    const checkPassword = await bcrypt.compare(password, user.password);
-
-
-    if(checkPassword){
-        return res.json({msg: `Successfully logged in ${user.username}`, status: true, user});
+    catch(err){
+        return res.json({msg: "Internal Server error", status: false});
     }
-    return res.json({msg: "Invalid password", status: false});
 }
 
 const signup = async (req, res, next) =>{
@@ -48,7 +49,7 @@ const signup = async (req, res, next) =>{
 
     }
     catch(err){
-        console.log(err);
+        return res.json({msg: "Internal Server error", status: false});
     }
 
 }

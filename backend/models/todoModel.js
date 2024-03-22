@@ -13,7 +13,8 @@ const todoSchema = new mongoose.Schema({
         default: false 
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Categories',
         required: true
     },    
     dueDate: { 

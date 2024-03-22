@@ -1,5 +1,7 @@
 const Users = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 const login = async (req, res, next) =>{
     
@@ -36,7 +38,6 @@ const login = async (req, res, next) =>{
 const signup = async (req, res, next) =>{
 
     try{
-
         const {username, email, password} = req.body;
         console.log(username, email, password);
         const emailCheck = await Users.findOne({email});

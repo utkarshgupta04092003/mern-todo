@@ -1,7 +1,0 @@
-React router dom
-Link
-react form
-
-remaining:
-change the data iscompleted when check box is clicked 
-upate is not implementeed

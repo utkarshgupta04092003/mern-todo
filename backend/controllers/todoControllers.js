@@ -44,4 +44,26 @@ const getAll = async(req, res)=>{
     }
 }
 
-module.exports = {add, getAll};
+const toggleCompleted = async (req, res)=>{
+    try {
+        const {todo} = req.body;
+
+        const updatedTodo = await Todos.findOneAndUpdate(
+          { _id: todo?._id }, // Filter to find the todo by its ID
+          { $set: { isCompleted: !todo.isCompleted } }, // Update operation to set isCompleted to false
+          { new: true } // Return the updated document
+        );
+    
+        if (updatedTodo) {
+            return res.json({msg: 'Todo Updated',status: true, updatedTodo })
+            
+        } else {
+            return res.json({msg: 'Todo not found or not updated.', status: false})
+            
+        }
+      } catch (error) {
+        return res.json({msg: 'Internal Server error.', status: false})
+    }
+}
+
+module.exports = {add, getAll, toggleCompleted};

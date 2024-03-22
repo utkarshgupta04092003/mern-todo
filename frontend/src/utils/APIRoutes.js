@@ -11,4 +11,5 @@ export const addCategoryRoute = `${host}/api/category/addcategory`;
 export const getAllCategoryRoute = `${host}/api/category/getallcategory`
 
 export const getCategoryData = `${host}/api/category/getcategorydata`;
-// export const getCategoryData = `${host}/api/category/getcategorydata`;
+
+export const toggleCompleted = `${host}/api/todos/togglecompleted`;

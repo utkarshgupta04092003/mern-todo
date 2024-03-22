@@ -28,10 +28,10 @@ const getAll = async(req, res)=>{
 
     try{
         console.log('req body', req.body);
-        const {user} = req.body.user;
+        const {user} = req.body;
         console.log('user id', user);
-        const todos = await Todos.find({user});
-        console.log(todos);
+        const todos = await Todos.find({user: user._id});
+        console.log('all todos', todos);
         if(!todos){
             return res.json({msg: 'No items found', status: false})
         }

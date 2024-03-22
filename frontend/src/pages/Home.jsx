@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getAllTodosRoute } from '../utils/APIRoutes';
+import { getAllCategoryRoute } from '../utils/APIRoutes';
 import { useNavigate } from 'react-router-dom';
 import HomeLeft from '../components/HomeLeft';
 import HomeMiddle from '../components/HomeMiddle';
 
 export default function Home() {
-  const [allTodos, setAllTodos] = useState();
+
   const [token, setToken] = useState();
-  const [todos, setTodos] = useState();
+  const [categories, setCategories] = useState();
+  const [currUser, setCurrUser] = useState();
+
 
   const navigate = useNavigate();
   useEffect(()=>{
@@ -20,22 +22,23 @@ export default function Home() {
       }
       else{
         setToken(t); 
-        const {data} = await axios.post(getAllTodosRoute, {token: t});
-        console.log('al todos', data);
-        setAllTodos(data);
-        setTodos(data);
+        const {data} = await axios.post(getAllCategoryRoute, {token : t});
+        console.log('fetch data', data);
+        if(data.status){
+          setCurrUser(data.user);
+          setCategories(data.categories);
+        }
+        
       }  
     }
     fetchToken();
   }, [])
 
-  useEffect(()=>{
-
-  }, []);
+ 
   return (
     <div className="flex  justify-between h-screen bg-gray-100">
       {/* Left Section */}
-      <HomeLeft/>
+      <HomeLeft categories={categories} currUser={currUser}/>
 
       {/* Middle Section */}
       <HomeMiddle/>

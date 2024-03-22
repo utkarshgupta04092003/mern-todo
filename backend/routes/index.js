@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const authRoutes = require('./authRoutes');
 const todoRouter = require('./todoRouter');
+const categoryRouter = require('./categoryRoute');
 
 
 // basic routes for testing purpose
@@ -16,6 +17,7 @@ router.post('/', (req, res, next)=>{
 // auth routes redirect
 router.use('/api/auth', authRoutes);
 router.use('/api/todos', todoRouter);
+router.use('/api/category', categoryRouter);
 
 
 module.exports = router;

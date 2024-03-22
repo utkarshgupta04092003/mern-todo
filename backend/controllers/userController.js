@@ -11,18 +11,24 @@ const login = async (req, res, next) =>{
                 { username: username_email }
             ]}
         );
-
+              
         if(!user){
             return res.json({msg: "Invalid email/password", status: false});
         }
-
+        
         const checkPassword = await bcrypt.compare(password, user.password);
         if(checkPassword){
-            return res.json({msg: `Successfully logged in ${user.username}`, status: true, user});
+            
+            var token = jwt.sign({ user: user }, config.secret, {
+                expiresIn: 86400, // expires in 24 hours
+            });
+            
+            return res.json({msg: `Successfully logged in ${user.username}`, status: true, user, token});
         }
-        return res.json({msg: "Invalid password", status: false});
+        return res.json({msg: "Invalid password", status: false, decoded});
     }
     catch(err){
+        console.log(err);
         return res.json({msg: "Internal Server error", status: false});
     }
 }
@@ -49,6 +55,7 @@ const signup = async (req, res, next) =>{
 
     }
     catch(err){
+        console.log(err);
         return res.json({msg: "Internal Server error", status: false});
     }
 

@@ -5,11 +5,12 @@ const add = async (req, res)=>{
 
     try{
         const {title, description, user, dueDate, category} = req.body;
-
-        console.log(title, description, user, dueDate, category);
+        const userId = user._id;
+        console.log('user', user);
+        console.log(title, description, userId, dueDate, category);
 
         const todo = await Todos.create({
-            title, description, dueDate, user, category
+            title, description, dueDate, user: userId, category
         })
         if(todo){
             return res.json({msg: "Todo Added Successfully", status: true, todo});
@@ -26,7 +27,8 @@ const add = async (req, res)=>{
 const getAll = async(req, res)=>{
 
     try{
-        const {user} = req.body;
+        console.log('req body', req.body);
+        const {user} = req.body.user;
         console.log('user id', user);
         const todos = await Todos.find({user});
         console.log(todos);

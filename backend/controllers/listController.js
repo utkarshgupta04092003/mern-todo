@@ -41,4 +41,16 @@ const getAllCategory = async (req, res) =>{
     }
 }
 
-module.exports = {addCategory, getAllCategory}
+const getAllCategoryData = async (req, res) =>{
+    try{
+
+        const {category, user} = req.body;
+        return res.json({msg: 'fetched successfully', status: true, category, user});
+
+    }
+    catch(err){
+        return res.json({msg: 'Internal Server error', err, status: false});
+    }
+}
+
+module.exports = {addCategory, getAllCategory, getAllCategoryData}

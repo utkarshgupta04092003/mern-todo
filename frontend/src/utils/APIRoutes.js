@@ -9,3 +9,5 @@ export const addTodoRoute = `${host}/api/todos/add`;
 
 export const addCategoryRoute = `${host}/api/category/addcategory`;
 export const getAllCategoryRoute = `${host}/api/category/getallcategory`
+
+export const getCategoryData = `${host}/api/category/getcategorydata`;

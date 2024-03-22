@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { addCategoryRoute } from '../utils/APIRoutes';
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { toastStyle } from '../utils/Constant';
 
 
-export default function HomeLeft({ categories, currUser }) {
+
+export default function HomeLeft({ categories, currUser, setCategories, setSelected, selected }) {
 
     const [add, setAdd] = useState(false);
     const [input, setInput] = useState();
@@ -9,9 +17,27 @@ export default function HomeLeft({ categories, currUser }) {
     const handleAddList = async (e) => {
         e.preventDefault();
         console.log('handleadd list');
+        if(!input){
+            toast.error('Input cannot be blank', toastStyle);
+            return;
+        }
         // call add to list api
+        const token = localStorage.getItem('todo-token');
+        const {data} = await axios.post(addCategoryRoute, {token, category: input});
+        console.log('add category response', data);
+        if(data.status){
+            toast.success(data.msg, toastStyle);
+            setCategories(prev => [...prev, data.category])
+        }
+        else{
+            toast.error(data.msg, toastStyle);
+        }
         setInput('');
         setAdd(false);
+    }
+    const handleSelected = (category) =>{
+        console.log('selected category', category);
+        setSelected(category);
     }
     return (
         <div className='w-1/4 h-screen flex flex-col justify-between border border-red-500'>
@@ -38,14 +64,14 @@ export default function HomeLeft({ categories, currUser }) {
                 {/* display categories/list section */}
 
 
-                <div className="">
-
+                <div className="h-[75vh] overflow-y-scroll scrollbar pr-2">
                     <h2 className="text-lg font-bold mb-4">Text List</h2>
+
                     {
                         categories?.map((category, index) => (
 
 
-                            <div className="flex items-center mb-4 pl-2 border border-gray-500 p-2 rounded-md">
+                            <div className={`flex items-center mb-4 pl-2 border border-gray-500 p-2 rounded-md ${selected?._id == category?._id ? "bg-gray-400 text-white": ""} capitalize`} onClick={()=>{handleSelected(category)}}>
 
                                 <svg viewBox="0 0 18 15" className='w-5 h-5 mr-3'>
                                     <path fill="#42 rounded-md4242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z" />
@@ -67,10 +93,10 @@ export default function HomeLeft({ categories, currUser }) {
             </div>
 
             {/* create list section */}
-            <div className='border border-red-500'>
+            <div className='border border-red-500 relative'>
 
                 {add &&
-                    <div className='flex items-center my-1'>
+                    <div className='flex items-center my-1 absolute -top-12 bg-gray-100 w-full p-2'>
 
                         <svg viewBox="0 0 18 15" className='w-5 h-5 mr-3 mx-3'>
                             <path fill="#42 rounded-md4242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z" />
@@ -101,6 +127,8 @@ export default function HomeLeft({ categories, currUser }) {
 
 
             </div>
+
+            <ToastContainer/>
         </div>
     )
 }

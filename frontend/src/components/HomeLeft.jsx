@@ -17,30 +17,33 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
     const handleAddList = async (e) => {
         e.preventDefault();
         console.log('handleadd list');
-        if(!input){
+        if (!input) {
             toast.error('Input cannot be blank', toastStyle);
             return;
         }
         // call add to list api
         const token = localStorage.getItem('todo-token');
-        const {data} = await axios.post(addCategoryRoute, {token, category: input});
+        const { data } = await axios.post(addCategoryRoute, { token, category: input });
         console.log('add category response', data);
-        if(data.status){
+        if (data.status) {
             toast.success(data.msg, toastStyle);
-            setCategories(prev => [...prev, data.category])
+            setTimeout(() => {
+
+                setCategories(prev => [...prev, data.category])
+            }, 3000);
         }
-        else{
+        else {
             toast.error(data.msg, toastStyle);
         }
         setInput('');
         setAdd(false);
     }
-    const handleSelected = (category) =>{
+    const handleSelected = (category) => {
         console.log('selected category', category);
         setSelected(category);
     }
     return (
-        <div className='w-1/4 h-screen flex flex-col justify-between border border-red-500'>
+        <div className='w-1/4 h-screen flex flex-col justify-between border border-red-500 select-none'>
             <div className=" h-full border border-gray-500 p-4">
                 {/* User Profile */}
                 <div className="flex items-center mb-4">
@@ -65,13 +68,26 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
 
 
                 <div className="h-[75vh] overflow-y-scroll scrollbar pr-2">
-                    <h2 className="text-lg font-bold mb-4">Text List</h2>
+                    <h2 className="text-lg font-bold mb-4">Categories</h2>
 
+                    {/* important caetgory */}
+                    <div className={`flex items-center mb-4 pl-2 border border-gray-500 p-2 rounded-md cursor-pointer bg-blue-500 text-white capitalize`} onClick={() => { handleSelected('important') }} >
+
+                        <svg viewBox="0 0 18 15" className='w-5 h-5 mr-3'>
+                            <path fill="#42 rounded-md4242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z" />
+                            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z" />
+                            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z" />
+                        </svg>
+
+
+                        <span className="flex-grow">Important</span>
+                      
+                    </div>
                     {
                         categories?.map((category, index) => (
 
 
-                            <div className={`flex items-center mb-4 pl-2 border border-gray-500 p-2 rounded-md ${selected?._id == category?._id ? "bg-gray-400 text-white": ""} capitalize`} onClick={()=>{handleSelected(category)}} key={index}>
+                            <div className={`flex items-center mb-4 pl-2 border border-gray-500 p-2 rounded-md cursor-pointer ${selected?._id == category?._id ? "bg-gray-500 text-white" : ""} capitalize`} onClick={() => { handleSelected(category) }} key={index}>
 
                                 <svg viewBox="0 0 18 15" className='w-5 h-5 mr-3'>
                                     <path fill="#42 rounded-md4242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z" />
@@ -80,10 +96,10 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
                                 </svg>
 
 
-                                <span className="flex-grow">{category.category }</span>
-                                <div className="w-6 h-6 flex justify-center items-center rounded-full bg-gray-300 text-gray-700">
+                                <span className="flex-grow">{category.category}</span>
+                                {/* <div className="w-6 h-6 flex justify-center items-center rounded-full bg-gray-300 text-gray-700">
                                     0
-                                </div>
+                                </div> */}
                             </div>
                         ))
                     }
@@ -118,7 +134,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" /></svg>
                     </span>
 
-                    <span className="flex-grow">New Category</span>
+                    <span className="flex-grow cursor-pointer">New Category</span>
                     {/* <div className="w-6 h-6 flex justify-center items-center rounded-full bg-gray-300 text-gray-700">
     
                     </div> */}
@@ -128,7 +144,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
 
             </div>
 
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     )
 }

@@ -12,7 +12,7 @@ import Bottom from '../assets/bottom.svg';
 
 
 
-export default function HomeMiddle({ currUser, selected, todos, setTodos, setSelected, deleteCategory }) {
+export default function HomeMiddle({ currUser, selected, todos, setTodos, setSelected, deleteCategory, setFetchImpt }) {
   const [input, setInput] = useState('');
   const [impAndCom, setImpAndCom] = useState();
   const [impAndNotCom, setImpAndNotCom] = useState();
@@ -29,13 +29,14 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
   const handleOptionClick = (option) => {
     // Handle option click here
     console.log(`Option clicked: ${option}`);
-    if(option == "Close Todo")
+    if (option == "Close Todo")
       setSelected('');
-    else if(option == 'Delete Category'){
+    else if (option == 'Delete Category') {
       deleteCategory();
+      setIsOpen(false);
     }
   };
-  
+
 
 
   const handleAddTodo = async (e) => {
@@ -91,7 +92,7 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
   return (
     <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between select-none'>
       <div className='flex justify-between pr-10 items-center text-white'>
-        <h1 className='capitalize font-bold text-2xl text-white select-none'>{selected?.category}</h1>
+        <h1 className='capitalize font-bold text-2xl text-white select-none'>{!selected?.category ? "Important" : selected?.category}</h1>
         <span className='text-2xl font-bold cursor-pointer relative' onClick={toggleDropdown}>...</span>
         {/* dropdown for close and delete category */}
         {isOpen && (
@@ -125,10 +126,10 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
       <div className='h-[80vh] overflow-y-scroll scrollbar p-0'>
 
         {impAndNotCom?.map((todo, index) => (
-          <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+          <ParticularTodo todo={todo} key={index} index={index + 'a'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
         ))}
         {notImpAndNotCom?.map((todo, index) => (
-          <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+          <ParticularTodo todo={todo} key={index} index={index + 'b'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
         ))}
 
         <div className='border border-gray-500 bg-white inline-flex p-1 rounded-md ml-3 mt-3' onClick={() => setShowCompleted(!showCompleted)}>
@@ -143,14 +144,18 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
         {/* display completed todo */}
         <div>
           {showCompleted && impAndCom?.map((todo, index) => (
-            <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+            <ParticularTodo todo={todo} key={index} index={index + 'c'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
           ))}
           {showCompleted && notImpAndCom?.map((todo, index) => (
-            <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+            <ParticularTodo todo={todo} key={index} index={index + 'd'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
           ))}
         </div>
       </div>
 
+
+
+        {
+          selected != 'important' &&
       <form className='border border-gray-400 rounded-md m-2 flex items-center p-2 bg-white' onSubmit={handleAddTodo}>
         <div className="round mx-3 mt-1"><input type="checkbox" /> <label htmlFor=""></label></div>
         <input type="text"
@@ -161,6 +166,7 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
           disabled={loading}
         />
       </form>
+        }
       <ToastContainer />
     </div>
   )

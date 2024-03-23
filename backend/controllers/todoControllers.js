@@ -86,4 +86,19 @@ const addToImportant = async (req, res) => {
     }
 }
 
-module.exports = { add, getAll, toggleCompleted, addToImportant };
+const getImportant = async (req, res)=>{
+    try{
+        const {user} = req.body;
+        console.log('imp user', user);
+        const todos = await Todos.find({user: user._id, important: true});
+        if(!todos){
+            return res.json({msg: 'Something went wrong', status: false});
+        }
+        return res.json({msg: "Get all important todos", status: true, todos});
+    }   
+    catch(err){
+        return res.json({msg: 'Internal Server Error', status: false});
+    }
+}
+
+module.exports = { add, getAll, toggleCompleted, addToImportant , getImportant};

@@ -17,3 +17,5 @@ export const toggleCompleted = `${host}/api/todos/togglecompleted`;
 export const addToImportantRoute = `${host}/api/todos/addtoimportant`;
 
 export const deleteCategoryRoute = `${host}/api/category/deletecategory`;
+
+export const getImportantTodosRoute = `${host}/api/todos/getimportant`;

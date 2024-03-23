@@ -4,12 +4,9 @@ import { addToImportantRoute, toggleCompleted } from '../utils/APIRoutes';
 import Important from '../assets/filledstar.svg';
 import notImportant from '../assets/emptystar.svg';
 
-export default function ParticularTodo({todo, index, setTodos, todos}) {
+export default function ParticularTodo({todo, index, setTodos, todos,  setFetchImpt}) {
 
-  // delete todo  
-  // delete category 
-  // add to important - completed
-  // filter all todos based on completed or not
+
   const handleChecked = async () =>{
     console.log('clicked', todo?.title)
     const token = localStorage.getItem('todo-token');
@@ -41,6 +38,7 @@ export default function ParticularTodo({todo, index, setTodos, todos}) {
 
       })
       setTodos(remaining);
+      setFetchImpt(prev=>prev+1);
       console.log('reminng', remaining);
     }
     console.log('important fetched data', data);

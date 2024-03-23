@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { deleteCategoryRoute, getAllCategoryRoute, getTodosRoute } from '../utils/APIRoutes';
+import { deleteCategoryRoute, getAllCategoryRoute, getImportantTodosRoute, getTodosRoute } from '../utils/APIRoutes';
 import { useNavigate } from 'react-router-dom';
 import HomeLeft from '../components/HomeLeft';
 import HomeMiddle from '../components/HomeMiddle';
@@ -18,6 +18,7 @@ export default function Home() {
   const [currUser, setCurrUser] = useState();
   const [selected, setSelected] = useState();
   const [todos, setTodos] = useState([]);
+  const [fetchImp, setFetchImpt] = useState();
 
 
   const navigate = useNavigate();
@@ -46,20 +47,35 @@ export default function Home() {
 
     const fetchCategoryData = async() =>{
       // console.log('selected', selected);
-      const {data} = await axios.post(getTodosRoute, {token, category: selected?._id});
-      console.log('get todos', data);
-      if(data.status){
-        setTodos(data.todos);
+      if(selected != 'important'){
+
+        const {data} = await axios.post(getTodosRoute, {token, category: selected?._id});
+        console.log('get todos', data);
+        if(data.status){
+          setTodos(data.todos);
+        }
+      }
+      else{
+        // alert('called important');
+        const {data} = await axios.post(getImportantTodosRoute, {token});
+        console.log('imp clicked', data);
+        if(data.status){
+          setTodos(data.todos);
+        }
       }
 
     }
 
     fetchCategoryData();
-  }, [selected]);
+  }, [selected, fetchImp]);
 
   const deleteCategory = async () =>{
     // delete selected category
     console.log('delete categoyr called');
+    if(selected == 'important'){
+      toast.error('Cannot delete this category', toastStyle);
+      return;
+    }
     const {data} = await axios.post(deleteCategoryRoute, {token, selected});
     console.log('category after deleted', data);
     if(data.status){
@@ -84,7 +100,7 @@ export default function Home() {
       {/* Middle Section */}
       {
         selected ? 
-        <HomeMiddle selected={selected} currUser={currUser} todos={todos} setTodos={setTodos} setSelected={setSelected} deleteCategory={deleteCategory}/>
+        <HomeMiddle setFetchImpt={setFetchImpt} selected={selected} currUser={currUser} todos={todos} setTodos={setTodos} setSelected={setSelected} deleteCategory={deleteCategory}/>
         : <Welcome/>
       }
 

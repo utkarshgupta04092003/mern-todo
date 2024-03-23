@@ -4,7 +4,7 @@ import { toggleCompleted } from '../utils/APIRoutes';
 
 export default function ParticularTodo({todo, index, setTodos, todos}) {
 
-  // delete todo
+  // delete todo  
   // delete category
   // add to important
   // filter all todos based on completed or not

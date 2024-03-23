@@ -14,8 +14,10 @@ import Bottom from '../assets/bottom.svg';
 
 export default function HomeMiddle({ currUser, selected, todos, setTodos }) {
   const [input, setInput] = useState('');
-  const [completed, setCompleted] = useState([]);
-  const [notCompleted, setNotCompleted] = useState([]);
+  const [impAndCom, setImpAndCom] = useState();
+  const [impAndNotCom, setImpAndNotCom] = useState();
+  const [notImpAndCom, setNotImpAndCom] = useState();
+  const [notImpAndNotCom, setNotImpAndNotCom] = useState();
   const [showCompleted, setShowCompleted] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -42,10 +44,10 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos }) {
       setInput('');
       setTimeout(() => {
         toast.success(data.msg, toastStyle);
-      },10);
+      }, 10);
       setTimeout(() => {
         setLoading(false)
-      },2000)
+      }, 2000)
       return;
     }
     else {
@@ -55,42 +57,54 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos }) {
   }
 
   useEffect(() => {
-    const completedTodos = todos.filter((t) => t.isCompleted == true);
-    const notCompletedTodos = todos.filter((t) => t.isCompleted === false);
-    console.log('completed', completedTodos);
-    console.log('not completed', notCompletedTodos);
-    setCompleted(completedTodos);
-    setNotCompleted(notCompletedTodos);
+    
+    const impCom = todos.filter((t) => t.isCompleted === true && t.important === true);
+    const impNotCom = todos.filter((t) => t.isCompleted === false && t.important === true);
+    const notImpCom = todos.filter((t) => t.isCompleted === true && t.important === false);
+    const notImpNotCom = todos.filter((t) => t.isCompleted === false && t.important === false);
+    
+
+    setImpAndCom(impCom);
+    setImpAndNotCom(impNotCom);
+    setNotImpAndCom(notImpCom);
+    setNotImpAndNotCom(notImpNotCom);
 
   }, [todos]);
 
   return (
     <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between'>
       <div className='flex justify-between pr-10 items-center text-white'>
-      <h1 className='capitalize font-bold text-2xl text-white select-none'>{selected?.category}</h1>
+        <h1 className='capitalize font-bold text-2xl text-white select-none'>{selected?.category}</h1>
         <span className='text-2xl font-bold cursor-pointer'>...</span>
       </div>
       {/* <h2>{todos.length}</h2> */}
       <div className='h-[80vh] overflow-y-scroll scrollbar p-0'>
 
-        {notCompleted?.map((todo, index) => (
-
+        {impAndNotCom?.map((todo, index) => (
+          <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+        ))}
+        {notImpAndNotCom?.map((todo, index) => (
           <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
         ))}
 
-        <div className='border border-gray-500 bg-white inline-flex p-1 rounded-md ml-3 mt-3' onClick={()=>setShowCompleted(!showCompleted)}>
-          
-          <img src={showCompleted ? Bottom : Right} alt="" className='w-6 h-6'/>
+        <div className='border border-gray-500 bg-white inline-flex p-1 rounded-md ml-3 mt-3' onClick={() => setShowCompleted(!showCompleted)}>
+
+          <img src={showCompleted ? Bottom : Right} alt="" className='w-6 h-6' />
           <h2>Completed</h2>
           <div className="w-6 h-6 ml-1 flex justify-center items-center rounded-full bg-gray-300 text-gray-700">
-            {completed.length}
+            {impAndCom?.length + notImpAndCom?.length}
           </div>
         </div>
 
-        { showCompleted && completed?.map((todo, index) => (
-
-          <ParticularTodo todo={todo} key={index} index={index + 'c'} setTodos={setTodos} todos={todos} />
-        ))}
+        {/* display completed todo */}
+        <div>
+          {showCompleted && impAndCom?.map((todo, index) => (
+            <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+          ))}
+          {showCompleted && notImpAndCom?.map((todo, index) => (
+            <ParticularTodo todo={todo} key={index} index={index} setTodos={setTodos} todos={todos} />
+          ))}
+        </div>
       </div>
 
       <form className='border border-gray-400 rounded-md m-2 flex items-center p-2 bg-white' onSubmit={handleAddTodo}>
@@ -99,9 +113,9 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos }) {
           placeholder='Type something to add'
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className='p-1 w-full border-none rounded-md focus:outline-none focus:border-gray-000' 
+          className='p-1 w-full border-none rounded-md focus:outline-none focus:border-gray-000'
           disabled={loading}
-          />
+        />
       </form>
       <ToastContainer />
     </div>

@@ -13,3 +13,5 @@ export const getAllCategoryRoute = `${host}/api/category/getallcategory`
 export const getCategoryData = `${host}/api/category/getcategorydata`;
 
 export const toggleCompleted = `${host}/api/todos/togglecompleted`;
+
+export const addToImportantRoute = `${host}/api/todos/addtoimportant`;

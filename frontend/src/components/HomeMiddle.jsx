@@ -12,15 +12,31 @@ import Bottom from '../assets/bottom.svg';
 
 
 
-export default function HomeMiddle({ currUser, selected, todos, setTodos }) {
+export default function HomeMiddle({ currUser, selected, todos, setTodos, setSelected, deleteCategory }) {
   const [input, setInput] = useState('');
   const [impAndCom, setImpAndCom] = useState();
   const [impAndNotCom, setImpAndNotCom] = useState();
   const [notImpAndCom, setNotImpAndCom] = useState();
   const [notImpAndNotCom, setNotImpAndNotCom] = useState();
-  const [showCompleted, setShowCompleted] = useState(false);
-
   const [loading, setLoading] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleOptionClick = (option) => {
+    // Handle option click here
+    console.log(`Option clicked: ${option}`);
+    if(option == "Close Todo")
+      setSelected('');
+    else if(option == 'Delete Category'){
+      deleteCategory();
+    }
+  };
+  
+
 
   const handleAddTodo = async (e) => {
     setLoading(true)
@@ -57,25 +73,53 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos }) {
   }
 
   useEffect(() => {
-    
+
     const impCom = todos.filter((t) => t.isCompleted === true && t.important === true);
     const impNotCom = todos.filter((t) => t.isCompleted === false && t.important === true);
     const notImpCom = todos.filter((t) => t.isCompleted === true && t.important === false);
     const notImpNotCom = todos.filter((t) => t.isCompleted === false && t.important === false);
-    
+
 
     setImpAndCom(impCom);
     setImpAndNotCom(impNotCom);
     setNotImpAndCom(notImpCom);
     setNotImpAndNotCom(notImpNotCom);
+    setIsOpen(false);
 
   }, [todos]);
 
   return (
-    <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between'>
+    <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between select-none'>
       <div className='flex justify-between pr-10 items-center text-white'>
         <h1 className='capitalize font-bold text-2xl text-white select-none'>{selected?.category}</h1>
-        <span className='text-2xl font-bold cursor-pointer'>...</span>
+        <span className='text-2xl font-bold cursor-pointer relative' onClick={toggleDropdown}>...</span>
+        {/* dropdown for close and delete category */}
+        {isOpen && (
+          <div
+            className="top-10 right-10 absolute select-none mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
+          >
+            <div className="py-1 w-full" role="none">
+              <button
+                onClick={() => handleOptionClick('Close Todo')}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                role="menuitem"
+              >
+                Close Todo
+              </button>
+              <button
+                onClick={() => handleOptionClick('Delete Category')}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                role="menuitem"
+              >
+                Delete Category
+              </button>
+            </div>
+          </div>
+        )}
+
       </div>
       {/* <h2>{todos.length}</h2> */}
       <div className='h-[80vh] overflow-y-scroll scrollbar p-0'>

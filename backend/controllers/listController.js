@@ -1,5 +1,7 @@
 
 const Categories = require('../models/categoryModel');
+const Todos = require('../models/todoModel');
+
 // requrie token(user details), category name and 
 const addCategory = async (req, res) =>{
     try{
@@ -53,4 +55,26 @@ const getAllCategoryData = async (req, res) =>{
     }
 }
 
-module.exports = {addCategory, getAllCategory, getAllCategoryData}
+const deleteCategory = async (req, res)=>{
+    try{
+        const {selected} = req.body;
+        console.log('selected', selected);
+        const deletedTodos = await Todos.deleteMany({category: selected?._id});
+        if(!deletedTodos){
+            return res.json({msg: `${selected.category}'s todos not deleted`, status: false});
+        }
+        console.log('delted todos\n', deletedTodos);
+        const updated = await Categories.findByIdAndDelete(selected?._id);
+        if(updated){
+            console.log('delted',updated);
+            return res.json({msg: `${selected.category} deleted successfully`, status: true});
+        }
+        return res.json({msg: `${selected.category} not deleted`, status: false});
+ 
+
+    }
+    catch(err){
+        return res.json({msg: 'Internal Server error', status: false});
+    }
+}
+module.exports = {addCategory, getAllCategory, getAllCategoryData, deleteCategory}

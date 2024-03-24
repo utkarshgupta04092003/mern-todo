@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toastStyle } from '../utils/Constant';
 import WhiteHamburger from '../assets/whitehamburger.svg';
 import Hamburger from '../assets/hamburger.svg';
+import { Link } from 'react-router-dom';
 
 
 export default function HomeLeft({ categories, currUser, setCategories, setSelected, selected }) {
@@ -47,6 +48,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
         <div className='min-w-[350px] w-1/5 h-screen flex flex-col justify-between border border-red-500 select-none'>
             <div className=" h-full border border-gray-500 p-4">
                 {/* User Profile */}
+                    <Link to={'/profile'}>
                 <div className="flex items-center mb-4">
                     {currUser?.isAvatarImageSet ?
 
@@ -63,6 +65,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
                         <p className="text-gray-600 lowercase">{currUser?.email}</p>
                     </div>
                 </div>
+                    </Link>
 
 
                 {/* display categories/list section */}

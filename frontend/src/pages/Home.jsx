@@ -39,6 +39,14 @@ export default function Home() {
           setCurrUser(data.user);
           setCategories(data.categories);
         }
+        else if(data.invalidToken){
+            toast.error(data.msg, toastStyle);
+            setTimeout(() => {
+              localStorage.clear();
+              navigate('/login');
+            }, 3000);
+          
+        }
         
       }  
     }

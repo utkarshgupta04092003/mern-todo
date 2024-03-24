@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Error from './pages/Error';
-import AddTodo from './pages/AddTodo';
+import Profile from './pages/Profile';
 function App() {
 
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Register/>}/>
-        <Route path='/add' element={<AddTodo/>}/>
+        <Route path='/profile' element={<Profile/>}/>
         <Route path='*' element={<Error/>}/>
         </Routes>
       </BrowserRouter>

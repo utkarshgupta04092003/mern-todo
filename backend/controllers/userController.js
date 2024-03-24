@@ -62,4 +62,17 @@ const signup = async (req, res, next) =>{
 
 }
 
-module.exports = {login, signup};
+const getUserDetails = async (req, res)=>{
+    console.log('get user details', req.body);
+    try{
+        const {user} = req.body;
+        delete user.password;
+        return res.json({msg: "Fetched successfully", status: true, user});
+    }
+    catch(err){
+        
+        return res.json({msg: "Internal Server error",status: false});
+    }
+}
+
+module.exports = {login, signup, getUserDetails};

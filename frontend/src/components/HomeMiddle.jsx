@@ -12,7 +12,7 @@ import Bottom from '../assets/bottom.svg';
 
 
 
-export default function HomeMiddle({ currUser, selected, todos, setTodos, setSelected, deleteCategory, setFetchImpt }) {
+export default function HomeMiddle({ currUser, selected, todos, setTodos, setSelected, deleteCategory, setFetchImpt, handleSetParticular }) {
   const [input, setInput] = useState('');
   const [impAndCom, setImpAndCom] = useState();
   const [impAndNotCom, setImpAndNotCom] = useState();
@@ -28,7 +28,7 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
   };
   const handleOptionClick = (option) => {
     // Handle option click here
-    console.log(`Option clicked: ${option}`);
+    // console.log(`Option clicked: ${option}`);
     if (option == "Close Todo")
       setSelected('');
     else if (option == 'Delete Category') {
@@ -41,7 +41,7 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
 
   const handleAddTodo = async (e) => {
     setLoading(true)
-    console.log('add todo');
+    // console.log('add todo');
     e.preventDefault();
 
     const token = localStorage.getItem('todo-token');
@@ -90,7 +90,7 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
   }, [todos]);
 
   return (
-    <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between select-none'>
+    <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between select-none max-w-1/2'>
       <div className='flex justify-between pr-10 items-center text-white'>
         <h1 className='capitalize font-bold text-2xl text-white select-none'>{!selected?.category ? "Important" : selected?.category}</h1>
         <span className='text-2xl font-bold cursor-pointer relative' onClick={toggleDropdown}>...</span>
@@ -126,10 +126,10 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
       <div className='h-[80vh] overflow-y-scroll scrollbar p-0'>
 
         {impAndNotCom?.map((todo, index) => (
-          <ParticularTodo todo={todo} key={index} index={index + 'a'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
+          <ParticularTodo todo={todo} key={index} index={index + 'a'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} handleSetParticular={handleSetParticular} />
         ))}
         {notImpAndNotCom?.map((todo, index) => (
-          <ParticularTodo todo={todo} key={index} index={index + 'b'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
+          <ParticularTodo todo={todo} key={index} index={index + 'b'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} handleSetParticular={handleSetParticular} />
         ))}
 
         <div className='border border-gray-500 bg-white inline-flex p-1 rounded-md ml-3 mt-3' onClick={() => setShowCompleted(!showCompleted)}>
@@ -144,10 +144,10 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
         {/* display completed todo */}
         <div>
           {showCompleted && impAndCom?.map((todo, index) => (
-            <ParticularTodo todo={todo} key={index} index={index + 'c'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
+            <ParticularTodo todo={todo} key={index} index={index + 'c'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} handleSetParticular={handleSetParticular}/>
           ))}
           {showCompleted && notImpAndCom?.map((todo, index) => (
-            <ParticularTodo todo={todo} key={index} index={index + 'd'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} />
+            <ParticularTodo todo={todo} key={index} index={index + 'd'} setTodos={setTodos} todos={todos} setFetchImpt={setFetchImpt} handleSetParticular={handleSetParticular} />
           ))}
         </div>
       </div>

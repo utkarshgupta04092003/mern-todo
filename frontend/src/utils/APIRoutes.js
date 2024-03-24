@@ -19,3 +19,7 @@ export const addToImportantRoute = `${host}/api/todos/addtoimportant`;
 export const deleteCategoryRoute = `${host}/api/category/deletecategory`;
 
 export const getImportantTodosRoute = `${host}/api/todos/getimportant`;
+
+export const addDescriptionRoute = `${host}/api/todos/adddescription`;
+
+export const getParticularTodo = `${host}/api/todos/getparticulartodo`;

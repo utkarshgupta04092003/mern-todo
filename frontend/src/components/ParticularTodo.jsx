@@ -4,7 +4,7 @@ import { addToImportantRoute, toggleCompleted } from '../utils/APIRoutes';
 import Important from '../assets/filledstar.svg';
 import notImportant from '../assets/emptystar.svg';
 
-export default function ParticularTodo({todo, index, setTodos, todos,  setFetchImpt}) {
+export default function ParticularTodo({todo, index, setTodos, todos,  setFetchImpt, handleSetParticular}) {
 
 
   const handleChecked = async () =>{
@@ -53,7 +53,7 @@ export default function ParticularTodo({todo, index, setTodos, todos,  setFetchI
         </div>
 
 
-        <label className={`content ml-6 text-lg capitalize ${todo.isCompleted && 'line-through'}`}>
+        <label className={`content ml-6 text-lg capitalize cursor-pointer ${todo.isCompleted && 'line-through'}`} onClick={()=>handleSetParticular(todo)}>
           {todo?.title}
         </label>
 

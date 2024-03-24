@@ -5,8 +5,8 @@ const add = async (req, res) => {
     try {
         const { title, description, user, dueDate, category } = req.body;
         const userId = user._id;
-        console.log('user', user);
-        console.log(title, description, userId, dueDate, category);
+        // console.log('user', user);
+        // console.log(title, description, userId, dueDate, category);
 
         const todo = await Todos.create({
             title, description, dueDate, user: userId, category
@@ -26,11 +26,8 @@ const add = async (req, res) => {
 const getAll = async (req, res) => {
 
     try {
-        console.log('req body', req.body);
         const { user, category } = req.body;
-        console.log('user id', user);
         const todos = await Todos.find({ user: user._id, category });
-        console.log('all todos', todos);
         if (!todos) {
             return res.json({ msg: 'No items found', status: false })
         }
@@ -38,7 +35,6 @@ const getAll = async (req, res) => {
         return res.json({ msg: "Items fetched successfully", status: true, todos });
     }
     catch (err) {
-        console.log(err);
         return res.json({ msg: "Internal Server error", status: false });
     }
 }
@@ -81,7 +77,6 @@ const addToImportant = async (req, res) => {
 
     }
     catch (err) {
-        console.log(err);
         return res.json({ msg: "Internal Server Error", status: false });
     }
 }
@@ -89,7 +84,6 @@ const addToImportant = async (req, res) => {
 const getImportant = async (req, res)=>{
     try{
         const {user} = req.body;
-        console.log('imp user', user);
         const todos = await Todos.find({user: user._id, important: true});
         if(!todos){
             return res.json({msg: 'Something went wrong', status: false});
@@ -101,4 +95,38 @@ const getImportant = async (req, res)=>{
     }
 }
 
-module.exports = { add, getAll, toggleCompleted, addToImportant , getImportant};
+const addDescription = async (req, res)=>{
+    try{
+        const {description, todo, dueDate} = req.body;
+        const isUpdate = await Todos.findOneAndUpdate(
+            { _id: todo?._id }, // Filter to find the todo by its ID
+            { $set: { description, dueDate } }, // Update operation to set isCompleted to false
+            { new: true } // Return the updated document
+        );
+        if(!isUpdate){
+            return res.json({msg: "Something went wrong", status: false});
+        }
+        return res.json({msg: "Data updated successfully", status: true, updated: isUpdate});
+    }
+    catch(err){
+        return res.json({msg: "Internal Server error", status: false});
+    }
+}
+const getParticularTodo = async (req, res)=>{
+
+    try{
+        const {todo} = req.body;
+        
+        const updated = await Todos.findById(todo?._id);
+        if(!updated){
+            return res.json({msg: "Something went wrong", status: false});
+        }
+        return res.json({msg: "Get particular todo successfully", status: true, updated});
+    }
+    catch(err){
+        return res.json({msg: "Internal Server error", status: false});
+    }
+}
+
+
+module.exports = { add, getAll, toggleCompleted, addToImportant , getImportant, addDescription, getParticularTodo};

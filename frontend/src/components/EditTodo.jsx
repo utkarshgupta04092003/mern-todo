@@ -22,7 +22,7 @@ export default function EditTodo({ todo, setParticular }) {
     useEffect(() => {
         // console.log('desc', todo.description);
         setInput(todo.description);
-        setDueDate(todo.dueDate?.split('T')[0]);
+        setDueDate(todo.dueDate ? todo.dueDate?.split('T')[0]  : '');
     }, [todo]);
 
 
@@ -62,8 +62,6 @@ export default function EditTodo({ todo, setParticular }) {
                         <input type="checkbox" id={`checkbox`} checked={todo.isCompleted} />
                         <label for={`checkbox`}></label>
                     </div>
-
-
 
                     <label className={`content ml-6 text-xl capitalize  ${todo.isCompleted && 'line-through'}`} >
                         {todo?.title}

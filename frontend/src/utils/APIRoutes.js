@@ -27,3 +27,5 @@ export const getParticularTodo = `${host}/api/todos/getparticulartodo`;
 export const deleteTodoRoute = `${host}/api/todos/deletetodo`;
 
 export const getUserDetailsRoute = `${host}/api/auth/getuserdetails`;
+
+export const uploadProfileImageRoute = `${host}/api/auth/uploadprofileimage`;

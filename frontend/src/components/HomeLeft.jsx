@@ -52,7 +52,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
                 <div className="flex items-center mb-4">
                     {currUser?.isAvatarImageSet ?
 
-                        <img src="" alt="User Profile" className="w-12 h-12 rounded-full mr-2 border border-green-600" /> :
+                        <img src={currUser?.avatarImage} alt="User Profile" className="w-12 h-12 rounded-full mr-2 border border-blue-600" /> :
                         <p className='border border-red-500 mr-2'>
                             <svg width="60" height="60" className='border border-green-500'>
                                 <circle cx="30" cy="30" r="25" fill="#6c757d" />

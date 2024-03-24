@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toastStyle } from '../utils/Constant';
 
 
-export default function EditTodo({ todo, setParticular }) {
+export default function EditTodo({ todo, setParticular, deleteTodo }) {
 
     const [input, setInput] = useState();
     const [updateMsg, setUpdateMsg] = useState();
@@ -47,6 +47,12 @@ export default function EditTodo({ todo, setParticular }) {
             toast.error(data.msg, toastStyle);
         }
     }
+
+    const hadnleDeleteTodo = (e) => {
+        e.preventDefault();
+        deleteTodo(todo);
+    }
+
     return (
         <div className='border border-red-500 w-2/5 h-screen select-none'>
             {/* top part */}
@@ -78,7 +84,7 @@ export default function EditTodo({ todo, setParticular }) {
 
             <div>
 
-                <form onSubmit={handleAddDescription} className='border border-red-500 '>
+                <form className='border border-red-500 '>
 
                     <div className='m-3 mt-16 border border-gray-400 flex justify-between items-end py-2 pr-5 px-3 bg-whtie rounded-md shadow-md'>
 
@@ -91,9 +97,10 @@ export default function EditTodo({ todo, setParticular }) {
                         onChange={(e)=>setDueDate(e.target.value)}/>
                         
                     </div>
-                    <div className='px-3 bg-whtie '>
+                    <div className='px-3 bg-whtie flex justify-between'>
 
-                    <button className='border border-blue-500  bg-[#536fcd] px-5 py-1 rounded-md text-white text-md'>Save</button>
+                    <button className='border border-blue-500 bg-[#536fcd] px-7 py-1 rounded-md text-white text-md'  onClick={handleAddDescription}>Save</button>
+                    <button className='border border-red-500  bg-red-500 px-7 py-1 rounded-md text-white text-md'  onClick={hadnleDeleteTodo}>Delete</button>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { deleteCategoryRoute, getAllCategoryRoute, getImportantTodosRoute, getParticularTodo, getTodosRoute } from '../utils/APIRoutes';
+import { deleteCategoryRoute, deleteTodoRoute, getAllCategoryRoute, getImportantTodosRoute, getParticularTodo, getTodosRoute } from '../utils/APIRoutes';
 import { useNavigate } from 'react-router-dom';
 import HomeLeft from '../components/HomeLeft';
 import HomeMiddle from '../components/HomeMiddle';
@@ -109,6 +109,17 @@ export default function Home() {
     }
   }
 
+  const deleteTodo = async (todo) =>{
+    const token = localStorage.getItem('todo-token');
+    const {data} = await axios.post(deleteTodoRoute, {token, todo});
+    console.log('delete todo', data);
+    if(data.status){
+      const remaining = todos.filter((t)=>t._id !== todo?._id);
+      setTodos(remaining);
+      setParticular('');
+    }
+  }
+
  
   return (
     <div className="flex  justify-between h-screen bg-white">
@@ -124,7 +135,7 @@ export default function Home() {
 
       {/* Right Section */}
       {
-        particular && <EditTodo todo={particular} setParticular={setParticular}/>
+        particular && <EditTodo todo={particular} setParticular={setParticular} deleteTodo={deleteTodo}/>
       }
 
       <ToastContainer/>

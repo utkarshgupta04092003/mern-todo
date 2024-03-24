@@ -23,3 +23,5 @@ export const getImportantTodosRoute = `${host}/api/todos/getimportant`;
 export const addDescriptionRoute = `${host}/api/todos/adddescription`;
 
 export const getParticularTodo = `${host}/api/todos/getparticulartodo`;
+
+export const deleteTodoRoute = `${host}/api/todos/deletetodo`;

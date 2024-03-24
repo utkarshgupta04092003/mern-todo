@@ -128,5 +128,20 @@ const getParticularTodo = async (req, res)=>{
     }
 }
 
+const deleteTodo = async (req, res)=>{
 
-module.exports = { add, getAll, toggleCompleted, addToImportant , getImportant, addDescription, getParticularTodo};
+    try{
+        const {todo} = req.body;
+        const updated = await Todos.findByIdAndDelete(todo?._id);
+        if(!updated){
+            return res.json({msg: "Something went wrong", status: false});
+        }
+        return res.json({msg: "Deleted successfully", status: true});
+
+    }
+    catch(err){
+        return res.json({msg: "Internal Server error", status: false});
+    }
+}
+
+module.exports = { add, getAll, toggleCompleted, addToImportant , getImportant, addDescription, getParticularTodo, deleteTodo};

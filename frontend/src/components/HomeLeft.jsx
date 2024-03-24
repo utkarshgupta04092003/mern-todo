@@ -59,8 +59,8 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
                         </p>
                     }
                     <div>
-                        <h3 className="font-bold">{currUser?.username}</h3>
-                        <p className="text-gray-600">{currUser?.email}</p>
+                        <h3 className="font-bold uppercase">{currUser?.username}</h3>
+                        <p className="text-gray-600 lowercase">{currUser?.email}</p>
                     </div>
                 </div>
 

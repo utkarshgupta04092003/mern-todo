@@ -65,7 +65,7 @@ function AddTodo() {
             const response = await axios.post(addTodoRoute, {
                 token: token, ...formData
             }); // Adjust the endpoint accordingly
-            console.log('Todo added successfully:', response.data);
+            // console.log('Todo added successfully:', response.data);
             // Optionally, you can reset the form fields after successful submission
             setFormData({
                 title: '',

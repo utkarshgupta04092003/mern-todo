@@ -18,7 +18,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
 
     const handleAddList = async (e) => {
         e.preventDefault();
-        console.log('handleadd list');
+        // console.log('handleadd list');
         if (!input) {
             toast.error('Input cannot be blank', toastStyle);
             return;
@@ -26,7 +26,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
         // call add to list api
         const token = localStorage.getItem('todo-token');
         const { data } = await axios.post(addCategoryRoute, { token, category: input });
-        console.log('add category response', data);
+        // console.log('add category response', data);
         if (data.status) {
             toast.success(data.msg, toastStyle);
             setTimeout(() => {
@@ -41,11 +41,11 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
         setAdd(false);
     }
     const handleSelected = (category) => {
-        console.log('selected category', category);
+        // console.log('selected category', category);
         setSelected(category);
     }
     return (
-        <div className='min-w-[350px] w-1/5 h-screen flex flex-col justify-between border border-red-500 select-none'>
+        <div className='min-w-[350px] w-1/5 h-screen flex flex-col justify-between  select-none'>
             <div className=" h-full border border-gray-500 p-4">
                 {/* User Profile */}
                     <Link to={'/profile'}>
@@ -53,7 +53,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
                     {currUser?.isAvatarImageSet ?
 
                         <img src={currUser?.avatarImage} alt="User Profile" className="w-12 h-12 rounded-full mr-2 border border-blue-600" /> :
-                        <p className='border border-red-500 mr-2'>
+                        <p className=' mr-2'>
                             <svg width="60" height="60" className='border border-green-500'>
                                 <circle cx="30" cy="30" r="25" fill="#6c757d" />
                                 <text x="51%" y="55%" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="20px">{currUser?.username.substring(0, 1).toUpperCase()}</text>
@@ -107,7 +107,7 @@ export default function HomeLeft({ categories, currUser, setCategories, setSelec
             </div>
 
             {/* create list section */}
-            <div className='border border-red-500 relative'>
+            <div className=' relative'>
 
                 {add &&
                     <div className='flex items-center my-1 absolute -top-12 bg-gray-100 w-full p-2'>

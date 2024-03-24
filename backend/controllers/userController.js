@@ -31,7 +31,7 @@ const login = async (req, res, next) =>{
         return res.json({ msg: "Invalid password", status: false, decoded });
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.json({ msg: "Internal Server error", status: false });
     }
 }
@@ -40,7 +40,7 @@ const signup = async (req, res, next) => {
 
     try {
         const { username, email, password } = req.body;
-        console.log(username, email, password);
+        // console.log(username, email, password);
         const emailCheck = await Users.findOne({ email });
         if (emailCheck) {
             return res.json({ msg: 'user already exist', status: false });
@@ -57,14 +57,14 @@ const signup = async (req, res, next) => {
 
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.json({ msg: "Internal Server error", status: false });
     }
 
 }
 
 const getUserDetails = async (req, res) => {
-    console.log('get user details', req.body);
+    // console.log('get user details', req.body);
     try {
         const { user } = req.body;
         delete user.password;

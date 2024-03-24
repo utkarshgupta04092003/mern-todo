@@ -54,7 +54,7 @@ export default function EditTodo({ todo, setParticular, deleteTodo }) {
     }
 
     return (
-        <div className='border border-red-500 w-2/5 h-screen select-none'>
+        <div className='w-2/5 h-screen select-none'>
             {/* top part */}
             <div className='flex flex-col items-end  relative top-5 right-5 ' >
                 <img src={close} alt="" className='relative w-8 h-8 cursor-pointer' onClick={() => setParticular('')} />
@@ -84,7 +84,7 @@ export default function EditTodo({ todo, setParticular, deleteTodo }) {
 
             <div>
 
-                <form className='border border-red-500 '>
+                <form className=''>
 
                     <div className='m-3 mt-16 border border-gray-400 flex justify-between items-end py-2 pr-5 px-3 bg-whtie rounded-md shadow-md'>
 
@@ -100,7 +100,7 @@ export default function EditTodo({ todo, setParticular, deleteTodo }) {
                     <div className='px-3 bg-whtie flex justify-between'>
 
                     <button className='border border-blue-500 bg-[#536fcd] px-7 py-1 rounded-md text-white text-md'  onClick={handleAddDescription}>Save</button>
-                    <button className='border border-red-500  bg-red-500 px-7 py-1 rounded-md text-white text-md'  onClick={hadnleDeleteTodo}>Delete</button>
+                    <button className=' bg-red-500 px-7 py-1 rounded-md text-white text-md'  onClick={hadnleDeleteTodo}>Delete</button>
                     </div>
                 </form>
             </div>

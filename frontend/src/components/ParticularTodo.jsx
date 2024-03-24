@@ -8,7 +8,7 @@ export default function ParticularTodo({todo, index, setTodos, todos,  setFetchI
 
 
   const handleChecked = async () =>{
-    console.log('clicked', todo?.title)
+    // console.log('clicked', todo?.title)
     const token = localStorage.getItem('todo-token');
     const {data} = await axios.post(toggleCompleted, {token, todo});
     if(!data.status){
@@ -18,12 +18,12 @@ export default function ParticularTodo({todo, index, setTodos, todos,  setFetchI
       const remaining = todos?.filter((t)=>t._id != todo?._id);
       remaining.push(data.updatedTodo);
       setTodos(remaining);
-      console.log(remaining);
+      // console.log(remaining);
     }
     
   }
   const handleClickImportant = async ()=>{
-    console.log('clicked handle click importnant');
+    // console.log('clicked handle click importnant');
     const token = localStorage.getItem('todo-token');
     const {data} = await axios.post(addToImportantRoute, { token, todo })
     if(!data.status){
@@ -39,9 +39,9 @@ export default function ParticularTodo({todo, index, setTodos, todos,  setFetchI
       })
       setTodos(remaining);
       setFetchImpt(prev=>prev+1);
-      console.log('reminng', remaining);
+      // console.log('reminng', remaining);
     }
-    console.log('important fetched data', data);
+    // console.log('important fetched data', data);
   }
   return (
     <div className='m-3 border border-gray-400 flex justify-between items-center py-2 pr-5 pl-3 bg-gray-100 rounded-md shadow-md'>

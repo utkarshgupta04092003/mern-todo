@@ -77,8 +77,8 @@ function Register() {
       else {
         toast.error(data.msg, toastStyle);
       }
-      console.log('data', data);
-      console.log(formData);
+      // console.log('data', data);
+      // console.log(formData);
       // Simulating form submission success with toast
     }
     else {
@@ -91,7 +91,7 @@ function Register() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-FFFDF4 py-12 px-4 sm:px-6 lg:px-8 border border-red-500">
+    <div className="min-h-screen flex items-center justify-center bg-FFFDF4 py-12 px-4 sm:px-6 lg:px-8s">
       <div className="max-w-md md:w-1/4 w-full space-y-8 border border-gray-200 shadow-md rounded-md p-5">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-800">Create an account</h2>

@@ -26,7 +26,7 @@ const Profile = () => {
 
     const getUserDetails = async () => {
       const { data } = await axios.post(getUserDetailsRoute, { token });
-      console.log('user data', data);
+      // console.log('user data', data);
       if (data.invalidToken) {
         toast.error(data.msg, toastStyle);
         setTimeout(() => {
@@ -42,7 +42,7 @@ const Profile = () => {
     }
 
     const token = localStorage.getItem('todo-token');
-    console.log('token', token);
+    // console.log('token', token);
     if (!token) {
       navigate('/login');
     }
@@ -57,7 +57,7 @@ const Profile = () => {
 
     const file = e.target.files[0];
     setImage(e.target.files[0]);
-    console.log('update', e.target.files[0]);
+    // console.log('update', e.target.files[0]);
     const reader = new FileReader();
     reader.onload = () => {
       setProfileImage(reader.result);
@@ -81,10 +81,10 @@ const Profile = () => {
     formData.append('image', 'working');
     formData.image = profileImage;
 
-    console.log('form data', formData);
+    // console.log('form data', formData);
     const token = localStorage.getItem('todo-token');
     const { data } = await axios.post(uploadProfileImageRoute, { token, formData });
-    console.log('usave data', data);
+    // console.log('usave data', data);
     if(data.status){
       localStorage.setItem('todo-token', data.token);
       toast.success(data.msg, toastStyle);

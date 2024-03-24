@@ -34,7 +34,7 @@ export default function Home() {
       else{
         setToken(t); 
         const {data} = await axios.post(getAllCategoryRoute, {token : t});
-        console.log('fetch data', data);
+        // console.log('fetch data', data);
         if(data.status){
           setCurrUser(data.user);
           setCategories(data.categories);
@@ -56,11 +56,11 @@ export default function Home() {
   useEffect(()=>{
 
     const fetchCategoryData = async() =>{
-      // console.log('selected', selected);
+      // // console.log('selected', selected);
       if(selected != 'important'){
 
         const {data} = await axios.post(getTodosRoute, {token, category: selected?._id});
-        console.log('get todos', data);
+        // console.log('get todos', data);
         if(data.status){
           setTodos(data.todos);
         }
@@ -68,7 +68,7 @@ export default function Home() {
       else{
         // alert('called important');
         const {data} = await axios.post(getImportantTodosRoute, {token});
-        // console.log('imp clicked', data);
+        // // console.log('imp clicked', data);
         if(data.status){
           setTodos(data.todos);
         }
@@ -83,11 +83,11 @@ export default function Home() {
 
   // handle change particular todo
   const handleSetParticular = async (todo) =>{
-    // console.log('clcked hadnle particular', todo);
+    // // console.log('clcked hadnle particular', todo);
     // fetch particular todo details and then set
     if(particular?._id !== todo?._id){
       const { data } = await axios.post(getParticularTodo, {token, todo});
-      // console.log('updated particular', data.updated);
+      // // console.log('updated particular', data.updated);
       setParticular(data.updated);
     }
     else{
@@ -97,13 +97,13 @@ export default function Home() {
 
   const deleteCategory = async () =>{
     // delete selected category
-    // console.log('delete categoyr called');
+    // // console.log('delete categoyr called');
     if(selected == 'important'){
       toast.error('Cannot delete this category', toastStyle);
       return;
     }
     const {data} = await axios.post(deleteCategoryRoute, {token, selected});
-    // console.log('category after deleted', data);
+    // // console.log('category after deleted', data);
     if(data.status){
       toast.success(data.msg, toastStyle);
       setTimeout(() => {
@@ -120,7 +120,7 @@ export default function Home() {
   const deleteTodo = async (todo) =>{
     const token = localStorage.getItem('todo-token');
     const {data} = await axios.post(deleteTodoRoute, {token, todo});
-    console.log('delete todo', data);
+    // console.log('delete todo', data);
     if(data.status){
       const remaining = todos.filter((t)=>t._id !== todo?._id);
       setTodos(remaining);

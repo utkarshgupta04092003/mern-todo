@@ -90,7 +90,7 @@ export default function HomeMiddle({ currUser, selected, todos, setTodos, setSel
   }, [todos]);
 
   return (
-    <div className='border border-red-500 w-full p-3 bg-[#536fcd] flex flex-col justify-between select-none max-w-1/2'>
+    <div className='w-full p-3 bg-[#536fcd] flex flex-col justify-between select-none max-w-1/2'>
       <div className='flex justify-between pr-10 items-center text-white'>
         <h1 className='capitalize font-bold text-2xl text-white select-none'>{!selected?.category ? "Important" : selected?.category}</h1>
         <span className='text-2xl font-bold cursor-pointer relative' onClick={toggleDropdown}>...</span>

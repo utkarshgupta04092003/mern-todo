@@ -6,13 +6,13 @@ const Todos = require('../models/todoModel');
 const addCategory = async (req, res) =>{
     try{
         
-        console.log('add category', req.body);
+        // // console.log('add category', req.body);
         const {category} = req.body;
         const user = req.body.user._id;
 
         const checkCategory = await Categories.find({ user, category})
 
-        console.log('cehck categgory', checkCategory.length)
+        // // console.log('cehck categgory', checkCategory.length)
         if(checkCategory.length != 0){
             return res.json({msg: `${category} already exist`, status: false});
         }
@@ -58,15 +58,15 @@ const getAllCategoryData = async (req, res) =>{
 const deleteCategory = async (req, res)=>{
     try{
         const {selected} = req.body;
-        console.log('selected', selected);
+        // console.log('selected', selected);
         const deletedTodos = await Todos.deleteMany({category: selected?._id});
         if(!deletedTodos){
             return res.json({msg: `${selected.category}'s todos not deleted`, status: false});
         }
-        console.log('delted todos\n', deletedTodos);
+        // console.log('delted todos\n', deletedTodos);
         const updated = await Categories.findByIdAndDelete(selected?._id);
         if(updated){
-            console.log('delted',updated);
+            // console.log('delted',updated);
             return res.json({msg: `${selected.category} deleted successfully`, status: true});
         }
         return res.json({msg: `${selected.category} not deleted`, status: false});
